@@ -10,7 +10,7 @@ router = APIRouter()
 @router.get("/review/pending")
 def get_pending():
 
-    conn = get_connection()
+    conn = get_connection_repo()
     cur = conn.cursor()
 
     cur.execute("""
@@ -34,7 +34,7 @@ def get_pending():
 @router.post("/review/approve")
 def approve(file_id:int):
 
-    conn = get_connection()
+    conn = get_connection_repo()
     cur = conn.cursor()
 
     cur.execute("""
@@ -57,7 +57,7 @@ def approve(file_id:int):
 @router.post("/review/reject")
 def reject(file_id:int):
 
-    conn = get_connection()
+    conn = get_connection_repo()
     cur = conn.cursor()
 
     cur.execute("""
