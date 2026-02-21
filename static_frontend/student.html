@@ -191,15 +191,18 @@
                 <i data-lucide="upload-cloud" class="w-5 h-5"></i>
                 <span>Notes & Upload</span>
             </div>
-
             <div class="nav-item" data-section="review" onclick="navTo('review')">
-                <i data-lucide="bell" class="w-5 h-5"></i>
-                <span>Dept Circulars</span>
+                <i data-lucide="users" class="w-5 h-5"></i>
+                <span>Review Queue</span>
             </div>
         </nav>
 
         <div class="mt-auto pt-6 border-t border-white/5">
-            <!-- Logout moved to profile dropdown in header -->
+            <button onclick="handleLogout()"
+                class="nav-item w-full text-red-400/80 hover:text-red-400 hover:bg-red-400/10 transition-all">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+                <span>Sign Out</span>
+            </button>
         </div>
     </aside>
 
@@ -222,91 +225,19 @@
                 <div class="relative w-64 group hidden sm:block">
                     <i data-lucide="search"
                         class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-purple-400 transition-colors"></i>
-                    <input id="global-search-input"
+                    <input
                         class="w-full bg-white/5 border border-white/10 rounded-full pl-10 pr-4 py-1.5 text-xs text-white focus:outline-none focus:border-purple-500/50 transition-all"
-                        placeholder="Search learning materials..."
-                        onkeydown="if(event.key==='Enter') executeGlobalSearch()" />
+                        placeholder="Search across portal..." />
                 </div>
+                <!-- Profile -->
                 <div class="flex items-center gap-3">
-                    <!-- Notification Bell -->
-                    <div class="relative" id="notif-bell-wrap">
-                        <button id="notif-bell-btn" onclick="toggleNotifDropdown()"
-                            class="relative w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-purple-300 hover:text-purple-400 hover:border-purple-500/40 transition-all">
-                            <i data-lucide="bell" class="w-4 h-4"></i>
-                            <span id="notif-badge"
-                                class="absolute top-1 right-1 w-2 h-2 rounded-full bg-pink-500 border border-[#0a0a12] hidden"></span>
-                        </button>
-                        <!-- Notif Dropdown -->
-                        <div id="notif-dropdown"
-                            class="hidden absolute right-0 top-12 w-80 glass-card rounded-2xl shadow-2xl border border-purple-500/20 z-50 overflow-hidden">
-                            <div class="flex items-center justify-between px-4 py-3 border-b border-white/5">
-                                <span class="text-xs font-bold text-white font-syne">Department Circulars</span>
-                                <span class="text-[9px] text-purple-400 font-bold uppercase tracking-widest">Last
-                                    3</span>
-                            </div>
-                            <div id="notif-dropdown-list" class="divide-y divide-white/5 max-h-72 overflow-y-auto">
-                                <p class="text-xs text-white/20 italic p-4">No notifications.</p>
-                            </div>
-                        </div>
+                    <div class="text-right">
+                        <p class="text-[13px] font-bold text-white" id="profile-name">Rahul Krishnan</p>
+                        <p class="text-[10px] text-purple-400 font-bold uppercase tracking-tighter" id="profile-id">
+                            RK-2024</p>
                     </div>
-
-                    <!-- Profile Button -->
-                    <div class="relative" id="profile-wrap">
-                        <button id="profile-btn" onclick="toggleProfileDropdown()"
-                            class="flex items-center gap-2.5 pl-2 pr-3 py-1.5 bg-white/5 border border-white/10 rounded-full hover:border-purple-500/40 transition-all cursor-pointer">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white font-bold text-sm border-2 border-white/10"
-                                id="profile-initial">R</div>
-                            <div class="text-left hidden sm:block">
-                                <p class="text-[12px] font-bold text-white leading-tight" id="profile-name">Student</p>
-                                <p class="text-[9px] text-purple-400 font-bold uppercase tracking-tighter"
-                                    id="profile-id">--</p>
-                            </div>
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-white/30"></i>
-                        </button>
-
-                        <!-- Profile Dropdown -->
-                        <div id="profile-dropdown"
-                            class="hidden absolute right-0 top-12 w-72 glass-card rounded-2xl shadow-2xl border border-purple-500/20 z-50 overflow-hidden">
-                            <!-- Profile Card -->
-                            <div class="p-5 bg-gradient-to-br from-purple-500/10 to-pink-500/5 border-b border-white/5">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white font-bold text-lg border-2 border-purple-400/30"
-                                        id="prof-modal-initial">R</div>
-                                    <div>
-                                        <p class="text-sm font-bold text-white" id="prof-modal-name">Student</p>
-                                        <p class="text-[10px] text-purple-400 font-bold uppercase tracking-widest"
-                                            id="prof-modal-id">--</p>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <div class="p-2 rounded-xl bg-white/5">
-                                        <p class="text-[8px] text-white/30 uppercase tracking-wider">Branch</p>
-                                        <p class="text-xs font-bold text-white" id="prof-modal-branch">--</p>
-                                    </div>
-                                    <div class="p-2 rounded-xl bg-white/5">
-                                        <p class="text-[8px] text-white/30 uppercase tracking-wider">Semester</p>
-                                        <p class="text-xs font-bold text-white" id="prof-modal-sem">--</p>
-                                    </div>
-                                    <div class="p-2 rounded-xl bg-white/5 col-span-2">
-                                        <p class="text-[8px] text-white/30 uppercase tracking-wider">Email</p>
-                                        <p class="text-xs font-bold text-purple-300 truncate" id="prof-modal-email">--
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Actions -->
-                            <div class="p-2">
-                                <button onclick="closeAllDropdowns()"
-                                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-white/70 hover:bg-white/5 hover:text-white transition-all">
-                                    <i data-lucide="user" class="w-4 h-4 text-purple-400"></i> My Profile
-                                </button>
-                                <button onclick="handleLogout()"
-                                    class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-red-400 hover:bg-red-500/10 transition-all">
-                                    <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white font-bold border-2 border-white/10"
+                        id="profile-initial">R</div>
                 </div>
             </div>
         </header>
@@ -556,14 +487,13 @@
                 </div>
             </div>
 
-
-            <!-- Dept Circulars View -->
+            <!-- Review Queue View -->
             <div id="section-review" class="section-fade hidden space-y-8">
                 <div class="flex items-center gap-4">
-                    <h2 class="text-2xl font-syne font-black text-white">Department Circulars</h2>
+                    <h2 class="text-2xl font-syne font-black text-white">Peer Review Queue</h2>
                     <span
-                        class="px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-[9px] text-amber-400 font-bold uppercase tracking-widest">Official
-                        Broadcast</span>
+                        class="px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-[9px] text-amber-400 font-bold uppercase tracking-widest">Community
+                        Governance</span>
                 </div>
                 <div class="grid grid-cols-1 gap-6" id="review-list">
                     <!-- Review items -->
@@ -632,31 +562,25 @@
                 <button onclick="closeModal('modal-upload')" class="text-white/40 hover:text-white"><i data-lucide="x"
                         class="w-6 h-6"></i></button>
             </div>
-            <div class="space-y-4">
-                <div class="p-4 bg-cyan-500/10 border border-cyan-500/20 rounded-xl mb-4">
-                    <p class="text-xs text-cyan-400 font-medium flex items-start gap-2">
-                        <i data-lucide="sparkles" class="w-4 h-4 flex-shrink-0 mt-0.5"></i>
-                        The AI Gatekeeper will automatically scan your document and categorize it into the correct
-                        subject, unit, and semester.
-                    </p>
-                </div>
-                <div class="border-2 border-dashed border-white/10 rounded-3xl p-8 text-center hover:border-cyan-500/30 transition-all cursor-pointer group"
+            <div class="space-y-6">
+                <div class="border-2 border-dashed border-white/10 rounded-3xl p-10 text-center hover:border-cyan-500/30 transition-all cursor-pointer group"
                     onclick="document.getElementById('file-input').click()">
                     <i data-lucide="file-up"
-                        class="w-8 h-8 text-white/30 group-hover:text-cyan-400 mx-auto mb-3 transition-all group-hover:scale-110"></i>
-                    <p class="text-[10px] text-white/40 group-hover:text-white/60">Click to browse or drop file here</p>
+                        class="w-10 h-10 text-white/30 group-hover:text-cyan-400 mx-auto mb-4 transition-all group-hover:scale-110"></i>
+                    <p class="text-xs text-white/40 group-hover:text-white/60">Click to browse or drop file here</p>
+                    <p class="text-[9px] text-white/20 mt-2 uppercase tracking-widest">PDF, DOCX, PPTX (MAX 10MB)</p>
                     <input type="file" id="file-input" class="hidden" onchange="handleFileSelect(event)" />
                 </div>
                 <div id="file-display"
                     class="hidden px-4 py-3 bg-white/5 border border-white/10 rounded-xl flex items-center justify-between">
-                    <span class="text-[10px] text-white font-medium truncate max-w-[200px]"
+                    <span class="text-xs text-white font-medium truncate max-w-[200px]"
                         id="file-name-text">filename.pdf</span>
                     <button onclick="removeSelectedFile()" class="text-red-400 hover:text-red-500"><i
                             data-lucide="trash-2" class="w-4 h-4"></i></button>
                 </div>
                 <button id="upload-btn" onclick="performUpload()"
                     class="w-full py-4 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-xl text-white font-syne font-bold shadow-lg shadow-cyan-500/30 transition-all disabled:opacity-50"
-                    disabled>Upload for HOD Approval</button>
+                    disabled>Start Intelligent Processing</button>
             </div>
         </div>
     </div>
@@ -690,6 +614,18 @@
                     <button onclick="selectModule('3')"
                         class="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 text-white/60 hover:bg-purple-500/10 hover:text-white transition-all group">
                         <span class="text-sm font-bold">Module 3</span>
+                        <i data-lucide="arrow-right"
+                            class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </button>
+                    <button onclick="selectModule('4')"
+                        class="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 text-white/60 hover:bg-purple-500/10 hover:text-white transition-all group">
+                        <span class="text-sm font-bold">Module 4</span>
+                        <i data-lucide="arrow-right"
+                            class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                    </button>
+                    <button onclick="selectModule('5')"
+                        class="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 text-white/60 hover:bg-purple-500/10 hover:text-white transition-all group">
+                        <span class="text-sm font-bold">Module 5</span>
                         <i data-lucide="arrow-right"
                             class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </button>
@@ -741,9 +677,8 @@
 
         async function loadDashboardData() {
             try {
-                const res = await fetch(`${API_SERVER_8000}/dashboard`, { credentials: 'include' });
+                const res = await fetch(`${API_SERVER_8000}/dashboard`);
                 const data = await res.json();
-                if (res.status === 401) { window.location.href = '/'; return; }
                 if (!res.ok) throw new Error("Portal Sync Error");
                 dashboardData = data.data;
 
@@ -763,19 +698,11 @@
             const p = dashboardData.profile;
             const firstName = p.name.split(' ')[0];
 
-            // Header profile button
+            // Global Profile
             document.getElementById('profile-name').innerText = p.name;
             document.getElementById('profile-id').innerText = p.id;
             document.getElementById('profile-initial').innerText = p.name.charAt(0);
             document.getElementById('chat-user-name').innerText = firstName;
-
-            // Profile dropdown info
-            document.getElementById('prof-modal-initial').innerText = p.name.charAt(0);
-            document.getElementById('prof-modal-name').innerText = p.name;
-            document.getElementById('prof-modal-id').innerText = p.id;
-            document.getElementById('prof-modal-branch').innerText = p.branch;
-            document.getElementById('prof-modal-sem').innerText = `Semester ${p.semester}`;
-            document.getElementById('prof-modal-email').innerText = dashboardData.email || '--';
 
             // Dashboard View
             document.getElementById('greet-name').innerText = firstName;
@@ -789,49 +716,20 @@
             const g = h < 12 ? "Good Morning" : h < 17 ? "Good Afternoon" : "Good Evening";
             document.getElementById('greet-badge').innerText = g;
 
-            // ── Notification Bell Dropdown (last 3) ──────────────────
-            const notifs = dashboardData.notifications || [];
-            const recent3 = notifs.slice(0, 3);
-            const badge = document.getElementById('notif-badge');
-            if (recent3.length > 0) badge.classList.remove('hidden');
-
-            const dropList = document.getElementById('notif-dropdown-list');
-            if (recent3.length) {
-                dropList.innerHTML = recent3.map(n => `
-                    <div class="px-4 py-3 hover:bg-white/3 transition-all">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider ${notifClass(n.priority)}">${n.priority}</span>
-                            <span class="text-[9px] text-white/30">${n.timestamp}</span>
-                        </div>
-                        <p class="text-xs font-bold text-white leading-tight flex items-center gap-1.5 mb-0.5">
-                            ${n.title}
-                            ${n.is_new ? '<span class="text-[7px] font-black bg-cyan-500/20 text-cyan-400 px-1 py-0.5 rounded uppercase tracking-widest border border-cyan-500/30">New+</span>' : ''}
-                        </p>
-                        <p class="text-[10px] text-white/40 leading-relaxed line-clamp-2">${n.message}</p>
-                        <p class="text-[9px] text-purple-400 mt-1 font-bold">— ${n.faculty}</p>
-                    </div>
-                `).join('');
-            } else {
-                dropList.innerHTML = `<p class="text-xs text-white/20 italic p-4">No notifications yet.</p>`;
-            }
-
-            // ── Main Dashboard Announcement Board ───────────────────
+            // Render Notifs
             const nCont = document.getElementById('notifs-container');
-            if (notifs.length) {
-                nCont.innerHTML = notifs.map(n => `
+            if (dashboardData.notifications.length) {
+                nCont.innerHTML = dashboardData.notifications.map(n => `
                     <div class="p-4 rounded-2xl bg-white/2 border border-white/5 hover:border-purple-500/20 transition-all">
-                         <div class="flex justify-between items-center mb-2">
-                              <span class="text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest ${notifClass(n.priority)}">${n.priority}</span>
-                              <span class="text-[9px] text-white/30 font-bold">${n.timestamp}</span>
-                         </div>
-                         <div class="flex items-center gap-2 mb-1">
-                             <h4 class="text-sm font-bold text-white">${n.title}</h4>
-                             ${n.is_new ? '<span class="text-[8px] font-black bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded uppercase tracking-widest border border-cyan-500/30">New+</span>' : ''}
-                         </div>
-                         <p class="text-xs text-white/50 leading-relaxed">${n.message}</p>
-                         <div class="mt-3 flex items-center gap-2 text-[10px] text-purple-400 font-bold uppercase py-2 border-t border-white/5">
-                             <i data-lucide="user" class="w-3 h-3"></i> By ${n.faculty}
-                         </div>
+                        <div class="flex justify-between items-center mb-2">
+                             <span class="text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest ${notifClass(n.priority)}">${n.priority}</span>
+                             <span class="text-[9px] text-white/30 font-bold">${n.timestamp}</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white mb-1">${n.title}</h4>
+                        <p class="text-xs text-white/50 leading-relaxed">${n.message}</p>
+                        <div class="mt-3 flex items-center gap-2 text-[10px] text-purple-400 font-bold uppercase py-2 border-t border-white/5">
+                            <i data-lucide="user" class="w-3 h-3"></i> By ${n.faculty}
+                        </div>
                     </div>
                 `).join('');
             } else {
@@ -863,15 +761,8 @@
                     </div>
                 `).join('');
             } else {
-                dCont.innerHTML = `<p class="text-xs text-white/20 italic">No urgent deadlines.</p>`;
+                dCont.innerHTML = `<p class="text-xs text-white/20 italic">Clean slate! No urgent deadlines.</p>`;
             }
-
-            // Sync upload subject select
-            const upSub = document.getElementById('up-subject');
-            if (upSub && dashboardData.subjects) {
-                upSub.innerHTML = dashboardData.subjects.map(s => `<option value="${s.code}">${s.code} — ${s.name}</option>`).join('');
-            }
-
             lucide.createIcons();
         }
 
@@ -892,20 +783,20 @@
             document.getElementById('section-' + section).classList.remove('hidden');
 
             const titleMap = {
-                dashboard: 'Overview',
+                dashboard: 'Dashboard Overview',
                 subjects: 'My Enrolled Subjects',
-                calendar: 'Personal & Academic Calendar',
-                performance: 'Academic Transcript',
-                'ai-chat': 'Study Assistant',
-                notes: 'Resource Repository',
-                review: 'Department Circulars'
+                calendar: 'Personal & Faculty Calendar',
+                performance: 'Academic Performance',
+                'ai-chat': 'AI Study Assistant',
+                notes: 'Intelligent Repository',
+                review: 'Community Review Queue'
             };
             document.getElementById('view-title').innerText = titleMap[section];
             document.getElementById('main-scroll').scrollTop = 0;
 
             if (section === 'performance') renderPerformance();
             if (section === 'notes') loadRepository();
-            if (section === 'review') renderReviewQueue();
+            if (section === 'review') loadReviewQueue();
 
             lucide.createIcons();
         }
@@ -1130,40 +1021,70 @@
         }
 
         async function selectModule(unit) {
-            document.getElementById('files-panel-title').innerText = `Notes for Module ${unit}`;
-            document.getElementById('files-list-container').innerHTML = `<div class="py-10 text-center animate-pulse text-white/20"><p>Fetching archives...</p></div>`;
+            document.getElementById('files-panel-title').innerText =
+                `Notes for Module ${unit}`;
+
+            document.getElementById('files-list-container').innerHTML =
+                `<div class="py-10 text-center animate-pulse text-white/20">
+            <p>Fetching archives...</p>
+        </div>`;
+
             document.getElementById('panel-files').classList.remove('hidden');
 
             try {
-                const res = await fetch(`${API_SERVER_8000}/files?subject_code=${currentSubject.code}&unit=${unit}&semester=${dashboardData.profile.semester}`, { credentials: 'include' });
+                // Get ALL files for subject (ignore unit filter)
+                const res = await fetch(
+                    `${API_SERVER_8001}/files/list?subject_code=${currentSubject.code}`
+                );
+
                 const data = await res.json();
 
-                if (data.files && data.files.length) {
-                    document.getElementById('files-list-container').innerHTML = data.files.map(f => `
-                        <div class="glass-card p-4 rounded-2xl flex items-center justify-between group hover:border-cyan-500/40 transition-all cursor-pointer">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400">
-                                    <i data-lucide="file-text" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <p class="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors line-clamp-1">${f.filename}</p>
-                                    <p class="text-[9px] text-white/30 uppercase tracking-widest">${f.file_type} • Sem ${f.semester}</p>
-                                </div>
-                            </div>
-                            <button onclick="downloadFile('${f.filename}', '${currentSubject.code}', '${unit}')" class="text-white/20 group-hover:text-white transition-colors"><i data-lucide="download" class="w-4 h-4"></i></button>
-                        </div>
-                    `).join('');
-                } else {
-                    document.getElementById('files-list-container').innerHTML = `<div class="py-20 text-center text-white/20 italic"><i data-lucide="inbox" class="w-10 h-10 mx-auto mb-4 opacity-50"></i><p>No notes found for this module.</p></div>`;
+                if (!data.files || !data.files.length) {
+                    document.getElementById('files-list-container').innerHTML =
+                        `<div class="py-20 text-center text-white/20 italic">
+                    <p>No notes found.</p>
+                </div>`;
+                    return;
                 }
-            } catch (err) {
-                document.getElementById('files-list-container').innerHTML = `<div class="py-20 text-center text-red-400/20 italic"><p>Repository server is unreachable.</p></div>`;
-            }
-            lucide.createIcons();
-        }
 
-        function downloadFile(filename, subjectCode, unit) {
-            window.location.href = `${API_SERVER_8000}/download?subject_code=${subjectCode}&filename=${filename}&unit=${unit}&semester=${dashboardData.profile.semester}`;
+                // 🔥 FRONTEND FILTERING
+                const filtered = data.files.filter(f =>
+                    String(f.unit).trim() == String(unit).trim()
+                );
+                if (filtered.length) {
+                    document.getElementById('files-list-container').innerHTML =
+                        filtered.map(f => `
+                    <div class="glass-card p-4 rounded-2xl flex items-center justify-between group hover:border-cyan-500/40 transition-all">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                                <i data-lucide="file-text" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-white group-hover:text-cyan-400">
+                                    ${f.filename}
+                                </p>
+                                <p class="text-[9px] text-white/30 uppercase tracking-widest">
+                                    Unit ${f.unit}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                } else {
+                    document.getElementById('files-list-container').innerHTML =
+                        `<div class="py-20 text-center text-white/20 italic">
+                    <p>No notes found for Module ${unit}.</p>
+                </div>`;
+                }
+
+            } catch (err) {
+                document.getElementById('files-list-container').innerHTML =
+                    `<div class="py-20 text-center text-red-400/20 italic">
+                <p>Repository server unreachable.</p>
+            </div>`;
+            }
+
+            lucide.createIcons();
         }
 
         async function loadRepository() {
@@ -1235,7 +1156,7 @@
         }
 
         function clearChat() {
-            document.getElementById('chat-messages').innerHTML = `<div class="msg-bubble ai">Chat cleared. Ready for your next question.</div>`;
+            document.getElementById('chat-messages').innerHTML = `<div class="msg-bubble ai">Chat cleared. Ready for your next academic question.</div>`;
         }
 
         // Upload Logic
@@ -1266,134 +1187,30 @@
 
             const formData = new FormData();
             formData.append('file', selectedFile);
+            formData.append('role', 'student');
+            formData.append('owner_id', dashboardData.profile.id);
 
             try {
-                const res = await fetch(`${API_SERVER_8000}/upload-file`, {
-                    method: 'POST',
-                    body: formData,
-                    credentials: 'include'
-                });
+                const res = await fetch(`${API_SERVER_8001}/upload`, { method: 'POST', body: formData });
                 if (res.ok) {
-                    alert("Document uploaded successfully. It is now pending HOD approval.");
+                    alert("Document processed! Head to AI chat to ask questions about it.");
                     closeModal('modal-upload');
                     removeSelectedFile();
-                } else {
-                    const errData = await res.json();
-                    alert("Upload failed: " + (errData.detail || "Server error"));
-                }
+                    loadRepository();
+                } else { alert("AI Classification failed. Try a different file."); }
             } catch (err) {
-                console.error(err);
-                alert("Network error during upload.");
+                alert("Upload failed. Verify 8001 server is active.");
             } finally {
-                btn.innerText = "Upload for HOD Approval";
+                btn.innerText = "Start Intelligent Processing";
                 btn.disabled = false;
-            }
-        }
-
-        // --- Semantic Search Logic ---
-        async function executeGlobalSearch() {
-            const input = document.getElementById('global-search-input');
-            const query = input.value.trim();
-            if (!query) return;
-
-            navTo('notes');
-            document.getElementById('view-title').innerText = `Search: "${query}"`;
-
-            const grid = document.getElementById('notes-grid');
-            grid.innerHTML = '<div class="col-span-full py-20 text-center animate-pulse text-cyan-400 font-bold uppercase tracking-widest">Searching Repository...</div>';
-
-            try {
-                const res = await fetch(`${API_SERVER_8001}/search/topic`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query: query, limit: 12 })
-                });
-                const data = await res.json();
-                if (res.ok && data.documents && data.documents.length) {
-                    grid.innerHTML = data.documents.map(d => `
-                         <div class="glass-card p-6 rounded-3xl border border-white/5 hover:border-cyan-500/30 transition-all group cursor-pointer relative">
-                            <div class="flex justify-between items-start mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
-                                    <i data-lucide="file-text" class="w-5 h-5"></i>
-                                </div>
-                                <span class="text-[9px] font-bold text-cyan-400 px-2 py-0.5 rounded bg-cyan-400/10 border border-cyan-400/20 uppercase">${d.file_type || 'TXT'}</span>
-                            </div>
-                            <h4 class="text-sm font-bold text-white mb-2 truncate">${d.subject_code || 'General Knowledge'}</h4>
-                            <p class="text-[10px] text-white/40 leading-relaxed line-clamp-4 italic flex-1">"...${d.snippet}..."</p>
-                            <div class="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
-                                <span class="text-[8px] text-white/20 font-bold uppercase tracking-widest">${d.section || 'N/A'}</span>
-                                <button onclick="navTo('ai-chat')" class="text-[9px] text-cyan-400 font-black hover:underline">SUMMARIZE →</button>
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    grid.innerHTML = `<div class="p-20 text-center col-span-full text-white/20 italic"><i data-lucide="info" class="w-12 h-12 mx-auto mb-4 opacity-50"></i><p>No results found for "${query}".</p></div>`;
-                }
-                lucide.createIcons();
-            } catch (e) {
-                grid.innerHTML = '<div class="col-span-full py-20 text-center text-red-400/20 italic"><p>Smart Repository Server is unreachable. Ensure port 8001 is active.</p></div>';
-            }
-        }
-        function renderReviewQueue() {
-            const notifs = dashboardData.notifications || [];
-            const list = document.getElementById('review-list');
-            if (notifs.length) {
-                list.innerHTML = notifs.map(n => `
-                    <div class="glass-card p-6 rounded-3xl border border-white/5 hover:border-amber-500/20 transition-all">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest ${notifClass(n.priority)}">${n.priority}</span>
-                            <span class="text-[9px] text-white/30 font-bold">${n.timestamp}</span>
-                        </div>
-                        <h4 class="text-lg font-bold text-white mb-2">${n.title}</h4>
-                        <p class="text-sm text-white/50 leading-relaxed mb-4">${n.message}</p>
-                        <div class="flex items-center gap-2 text-[10px] text-amber-400 font-bold uppercase py-2 border-t border-white/5">
-                            <i data-lucide="user" class="w-3 h-3"></i> Origin: ${n.faculty}
-                        </div>
-                    </div>
-                `).join('');
-                lucide.createIcons();
-            } else {
-                list.innerHTML = `<div class="glass-card p-10 rounded-3xl text-center text-white/20 italic"><p>No circulars posted yet.</p></div>`;
             }
         }
 
         function handleLogout() {
             if (confirm("Log out of StudySync?")) {
-                fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
-                    window.location.href = '/';
-                });
+                window.location.href = '/';
             }
         }
-
-        // ── Dropdown Logic ─────────────────────────────────────────
-        function toggleNotifDropdown() {
-            const dd = document.getElementById('notif-dropdown');
-            const profileDd = document.getElementById('profile-dropdown');
-            profileDd.classList.add('hidden');
-            dd.classList.toggle('hidden');
-        }
-
-        function toggleProfileDropdown() {
-            const dd = document.getElementById('profile-dropdown');
-            const notifDd = document.getElementById('notif-dropdown');
-            notifDd.classList.add('hidden');
-            dd.classList.toggle('hidden');
-        }
-
-        function closeAllDropdowns() {
-            document.getElementById('notif-dropdown')?.classList.add('hidden');
-            document.getElementById('profile-dropdown')?.classList.add('hidden');
-        }
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!document.getElementById('notif-bell-wrap')?.contains(e.target)) {
-                document.getElementById('notif-dropdown')?.classList.add('hidden');
-            }
-            if (!document.getElementById('profile-wrap')?.contains(e.target)) {
-                document.getElementById('profile-dropdown')?.classList.add('hidden');
-            }
-        });
     </script>
 </body>
 
