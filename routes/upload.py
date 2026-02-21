@@ -66,7 +66,7 @@ async def upload_file(
     # ===============================
     # STEP 6 — INSERT INTO DATABASE
     # ===============================
-    conn = get_connection()
+    conn = get_connection_repo()
     cur = conn.cursor()
 
     cur.execute("""
@@ -208,7 +208,7 @@ async def upload_multiple_files(
             binary_data = f.read()
 
         # --- STEP 6: Insert into DB ---
-        conn = get_connection()
+        conn = get_connection_repo()
         cur = conn.cursor()
 
         cur.execute("""
