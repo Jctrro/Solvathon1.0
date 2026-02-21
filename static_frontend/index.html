@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySync University Network — Authentication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tailwind-config.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="flex items-center justify-center min-h-screen relative overflow-hidden">
+    <!-- Dynamic Background Orbs -->
+    <div class="animated-orb bg-brand-600/20 w-[50vw] h-[50vw] top-[-10%] left-[-10%]"></div>
+    <div class="animated-orb bg-cyan-500/10 w-[60vw] h-[60vw] bottom-[-20%] right-[-10%]" style="animation-delay: 2s;">
+    </div>
+
+    <div class="relative z-10 w-full max-w-md mx-auto p-6 transition-all duration-700 ease-out transform translate-y-4 opacity-0"
+        id="login-container">
+        <div class="glass-card rounded-[1.5rem] p-8 sm:p-10 relative overflow-hidden">
+            <!-- Decorative shine -->
+            <div
+                class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand-400/50 to-transparent">
+            </div>
+
+            <div class="text-center mb-10">
+                <div
+                    class="w-16 h-16 mx-auto bg-gradient-to-br from-brand-400 to-cyan-400 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/30 mb-6">
+                    <i data-lucide="lock" class="w-8 h-8 text-white"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2 tracking-tight">StudySync <span
+                        class="text-brand-400">University</span></h1>
+                <p class="text-white/60 text-sm font-medium tracking-wide">Enter your secure credentials to continue</p>
+            </div>
+
+            <form id="login-form" class="space-y-6">
+                <!-- Error msg -->
+                <div id="error-msg"
+                    class="hidden p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-200 text-sm font-medium flex-items-center gap-3 backdrop-blur-md">
+                    <div class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block mr-2"></div>
+                    <span id="error-text"></span>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-white/70 uppercase tracking-wider ml-1">Email
+                            Address</label>
+                        <div class="relative group">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/40 group-focus-within:text-brand-400 transition-colors">
+                                <i data-lucide="mail" class="w-5 h-5"></i>
+                            </div>
+                            <input type="email" id="email" required
+                                class="w-full glass-input text-sm rounded-xl pl-11 pr-4 py-3.5 transition-all placeholder-white/20"
+                                placeholder="name@university.edu" />
+                        </div>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label
+                            class="text-xs font-semibold text-white/70 uppercase tracking-wider ml-1">Password</label>
+                        <div class="relative group">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/40 group-focus-within:text-brand-400 transition-colors">
+                                <i data-lucide="lock" class="w-5 h-5"></i>
+                            </div>
+                            <input type="password" id="password" required
+                                class="w-full glass-input text-sm rounded-xl pl-11 pr-4 py-3.5 transition-all placeholder-white/20"
+                                placeholder="••••••••••" />
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn"
+                    class="w-full flex items-center justify-center gap-2 py-4 rounded-xl text-sm font-bold tracking-wide transition-all shadow-lg bg-gradient-to-r from-brand-500 to-cyan-500 text-white hover:scale-[1.02] border border-transparent hover:border-white/10">
+                    <span id="btn-text">Enter Portal</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5" id="btn-icon"></i>
+                </button>
+            </form>
+            <!-- REGISTRATION LINK -->
+            <div class="mt-8 text-center border-t border-white/5 pt-6">
+                <p class="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-2">New Student?</p>
+                <a href="/register.html"
+                    class="inline-block text-brand-400 hover:text-brand-300 text-sm font-bold tracking-tight transition-colors">Request
+                    Account Access →</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        lucide.createIcons();
+        setTimeout(() => {
+            const container = document.getElementById('login-container');
+            container.classList.remove('opacity-0', 'translate-y-4');
+        }, 100);
+    </script>
+</body>
+
+</html>
